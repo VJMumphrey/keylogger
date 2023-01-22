@@ -10,7 +10,6 @@ import (
 
 func main() {
 
-    TestServer()
     // create the log file
     f, err := os.Create("log.txt")
     check(err)
