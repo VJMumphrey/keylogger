@@ -11,7 +11,7 @@ import (
 
 func check(err error)() {
     if err != nil{
-		log.Fatalln(err)
+		log.Println(err)
     }
 }
 
@@ -39,7 +39,7 @@ func main() {
 		check(err)
 		
 		// send the log to a server
-		resp, err := http.Post("http://127.0.0.1:8090/upload", "log.txt", nil)
+		resp, err := http.Post("http://127.0.0.1:8090", "log.txt", nil)
 		check(err)
 
 		defer resp.Body.Close()
